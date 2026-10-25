@@ -1,0 +1,107 @@
+﻿@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI", Arial, sans-serif
+skinparam roundCorner 8
+skinparam shadowing false
+
+skinparam activity {
+    BackgroundColor #EBF5FB
+    BorderColor #1B4F72
+    FontColor #0F172A
+    FontSize 11
+    BorderThickness 1.5
+}
+
+skinparam activityDiamond {
+    BackgroundColor #FEF3C7
+    BorderColor #D97706
+    FontColor #92400E
+    FontSize 11
+    BorderThickness 1.5
+}
+
+skinparam swimlane {
+    BorderColor #64748B
+    BorderThickness 1.5
+    TitleFontColor #0F172A
+    TitleFontSize 13
+    TitleFontStyle bold
+    BackgroundColor #F8FAFC
+}
+
+|Student|
+start
+:Log in to Student Portal;
+:Navigate to Enrollment Tab\n(student/index.php?tab=en);
+
+|CuyoTech SSIS Application|
+:Query enrollment record for Student ID\n(SELECT enrollment_status FROM enrollment...);
+if (Current Enrollment Status?) then ([Already 'Enrolled'])
+    |Student|
+    :View Confirmed Registration Details\nand Curriculum Subject Load;
+    :Click "Print COR"\n(Certificate of Registration);
+    stop
+elseif (Current Enrollment Status?) then ([Status is 'Pending review'])
+    |Student|
+    :View "Application under review" Notice\nand Evaluation Status Badge;
+    stop
+else ([Status is 'Returned' or None])
+    |Student|
+    :Review Curriculum Load (18 Units)\nand Registration Instructions;
+    :Click "Submit enrollment" or\n"Re-submit registration";
+    
+    |CuyoTech SSIS Application|
+    :Verify CSRF Token & Active Session;
+    :Insert Enrollment Record:\nstatus = 'Pending review', sem = '1st',\nschool_year = '2026-2027', date = CURDATE();
+    :Record Audit Log Entry\n("Submitted enrollment for 2026-2027, 1st");
+    :Set Success Flash Message;
+    
+    |Student|
+    :Display "Application submitted.\nThe Registrar will review it.";
+endif
+
+|Registrar Officer|
+:Log in to Registrar Desk;
+:Access Enrollment Review Tab\n(registrar/index.php?tab=rv);
+:Browse Pending Applications Queue\nand Select Student Application;
+:Review Student Profile, Program,\nSection, and Academic History;
+
+if (Registrar Evaluation Decision?) then ([Approve Registration])
+    |CuyoTech SSIS Application|
+    :Execute confirm_enrollment action;
+    :UPDATE enrollment\nSET enrollment_status = 'Enrolled'\nWHERE enrollment_id = ?;
+    :Record Audit Log Entry\n("Confirmed enrollment #ID");
+    
+    |Registrar Officer|
+    :Display "Enrollment has been confirmed";
+    
+    |Student|
+    :Access Student Portal;
+    :System reflects 'Enrolled' Status Badge;
+    :Generate and Print Official\nCertificate of Registration (COR);
+    stop
+elseif (Registrar Evaluation Decision?) then ([Re-open Review])
+    |CuyoTech SSIS Application|
+    :Execute set_pending_enrollment action;
+    :UPDATE enrollment\nSET enrollment_status = 'Pending review'\nWHERE enrollment_id = ?;
+    :Record Audit Log Entry;
+    |Registrar Officer|
+    :Application stays in Evaluation Queue;
+    stop
+else ([Deficiencies Found / Returned])
+    |CuyoTech SSIS Application|
+    :Execute return_enrollment action;
+    :UPDATE enrollment\nSET enrollment_status = 'Returned'\nWHERE enrollment_id = ?;
+    :Record Audit Log Entry\n("Returned enrollment #ID");
+    
+    |Registrar Officer|
+    :Display "Enrollment returned for revision";
+    
+    |Student|
+    :Access Student Portal;
+    :System displays "Registration requires revision";
+    :Prompt Student to review record and re-submit;
+    stop
+endif
+
+@enduml

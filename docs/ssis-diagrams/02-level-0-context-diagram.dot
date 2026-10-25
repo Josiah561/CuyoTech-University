@@ -1,0 +1,73 @@
+digraph GaneSarsonContextDiagram {
+    graph [
+        rankdir=TB,
+        splines=ortho,
+        nodesep=1.0,
+        ranksep=1.1,
+        pad="0.5",
+        bgcolor="#FFFFFF",
+        dpi=300,
+        fontname="Arial"
+    ];
+
+    node [fontname="Arial", fontsize=10, color="#000000"];
+    edge [fontname="Arial", fontsize=8.5, color="#000000", penwidth=1.1, arrowsize=0.75];
+
+    // External Entities (Sharp Yellow Rectangles)
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000", penwidth=1.2, margin="0.2,0.12"];
+    Student   [label="Student\n[External Entity]"];
+    Admin     [label="System Administrator\n[External Entity]"];
+    Registrar [label="Registrar Officer\n[External Entity]"];
+    Cashier   [label="Cashier Officer\n[External Entity]"];
+    DeptHead  [label="Department Head\n[External Entity]"];
+    Inquirer  [label="Public Inquirer\n[External Entity]"];
+
+    // Central Process (Gane & Sarson Rounded Process with Top/Bottom Bands)
+    node [shape=plain, style=""];
+    CentralSystem [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED" COLOR="#000000" BGCOLOR="#FFF3A8">
+        <TR>
+            <TD WIDTH="32" BORDER="0" ALIGN="CENTER"><FONT POINT-SIZE="11"><B>0</B></FONT></TD>
+            <TD WIDTH="240" BORDER="1" SIDES="L" COLOR="#000000"></TD>
+        </TR>
+        <TR>
+            <TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000" HEIGHT="46" ALIGN="CENTER">
+                <FONT POINT-SIZE="12"><B>CuyoTech University System</B></FONT><BR/>
+                <FONT POINT-SIZE="9" COLOR="#444444">(SSIS Main Application Boundary)</FONT>
+            </TD>
+        </TR>
+        <TR>
+            <TD COLSPAN="2" HEIGHT="8" BORDER="0"></TD>
+        </TR>
+    </TABLE>>];
+
+    // Grid ranks
+    { rank=same; Student; Admin; }
+    { rank=same; Registrar; CentralSystem; Cashier; }
+    { rank=same; DeptHead; Inquirer; }
+
+    // Enforce horizontal ordering
+    Student -> Admin [style=invis];
+    Registrar -> CentralSystem -> Cashier [style=invis];
+    DeptHead -> Inquirer [style=invis];
+
+    // TOP NODES: Student & Admin
+    Student -> CentralSystem [label="  Enrollment, Documents, Credentials"];
+    Student -> CentralSystem [label="  COR, Grades, Clearance, Session", dir=back];
+
+    Admin -> CentralSystem [label="  Account Roles, Overrides"];
+    Admin -> CentralSystem [label="  Logs, Matrix, Reports", dir=back];
+
+    // MIDDLE NODES: Registrar & Cashier
+    Registrar -> CentralSystem [label="  Decisions, Grades, Doc Updates"];
+    Registrar -> CentralSystem [label="  Queues, Rosters, Records", dir=back];
+
+    Cashier -> CentralSystem [label="  Payments, Receipts (OR)"];
+    Cashier -> CentralSystem [label="  Assessments, Balances", dir=back];
+
+    // BOTTOM NODES: DeptHead & Inquirer
+    CentralSystem -> DeptHead [label="  Clearance Approvals, Advising", dir=back];
+    CentralSystem -> DeptHead [label="  Department Rosters"];
+
+    CentralSystem -> Inquirer [label="  Campus Inquiries", dir=back];
+    CentralSystem -> Inquirer [label="  Acknowledgment"];
+}

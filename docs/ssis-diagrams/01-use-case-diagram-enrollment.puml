@@ -1,0 +1,71 @@
+﻿@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI", Arial, sans-serif
+skinparam roundCorner 8
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+skinparam actor {
+    BackgroundColor #EBF5FB
+    BorderColor #1B4F72
+    FontColor #0F172A
+    FontSize 12
+    FontStyle bold
+}
+
+skinparam usecase {
+    BackgroundColor #F8FAFC
+    BorderColor #2563EB
+    BorderThickness 1.5
+    FontColor #0F172A
+    FontSize 11
+    ArrowColor #334155
+}
+
+left to right direction
+
+actor "Student" as Student
+actor "Registrar Officer" as Registrar
+
+rectangle "CuyoTech University SSIS — Enrollment Subsystem" {
+    usecase "UC-ENR-01\nView Registration Status\n& Subject Load" as UC_View
+    usecase "UC-ENR-02\nSubmit Enrollment\nApplication" as UC_Submit
+    usecase "UC-ENR-03\nRe-submit Revised\nRegistration" as UC_Resubmit
+    usecase "UC-ENR-04\nPrint Certificate of\nRegistration (COR)" as UC_PrintCOR
+    
+    usecase "UC-ENR-05\nReview Pending\nEnrollment Queue" as UC_ReviewQueue
+    usecase "UC-ENR-06\nEvaluate Student\nApplication" as UC_Evaluate
+    usecase "UC-ENR-07\nConfirm Enrollment\n(Approve)" as UC_Confirm
+    usecase "UC-ENR-08\nReturn Registration\nfor Revision" as UC_Return
+    usecase "UC-ENR-09\nRe-open Application\nfor Evaluation" as UC_Reopen
+    
+    usecase "UC-SYS-01\nVerify Curriculum Load\n& Existing Status" as UC_Verify
+    usecase "UC-SYS-02\nRecord Audit Log\nEntry" as UC_Audit
+}
+
+Student --> UC_View
+Student --> UC_Submit
+Student --> UC_Resubmit
+Student --> UC_PrintCOR
+
+Registrar --> UC_ReviewQueue
+Registrar --> UC_Evaluate
+Registrar --> UC_Confirm
+Registrar --> UC_Return
+Registrar --> UC_Reopen
+
+UC_Submit .> UC_Verify : <<include>>
+UC_Submit .> UC_Audit : <<include>>
+
+UC_Resubmit ..> UC_Submit : <<extend>>\n[if status = 'Returned']
+UC_PrintCOR ..> UC_View : <<extend>>\n[if status = 'Enrolled']
+
+UC_Evaluate .> UC_ReviewQueue : <<include>>
+UC_Confirm ..> UC_Evaluate : <<extend>>\n[approved]
+UC_Return ..> UC_Evaluate : <<extend>>\n[needs revision]
+UC_Reopen ..> UC_Evaluate : <<extend>>\n[re-evaluate]
+
+UC_Confirm .> UC_Audit : <<include>>
+UC_Return .> UC_Audit : <<include>>
+
+@enduml

@@ -1,0 +1,267 @@
+@startuml 04-class-diagram
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Segoe UI, Arial, sans-serif"
+skinparam defaultFontSize 11
+skinparam linetype ortho
+skinparam nodesep 55
+skinparam ranksep 60
+
+skinparam class {
+    BackgroundColor #FFFFFF
+    ArrowColor #2C3E50
+    BorderColor #2C3E50
+    HeaderBackgroundColor #ECEFF1
+}
+
+skinparam class<<Primary>> {
+    BackgroundColor #F0F7FF
+    BorderColor #1A56DB
+    HeaderBackgroundColor #D1E4FF
+}
+
+skinparam class<<Admin>> {
+    BackgroundColor #FFF4E5
+    BorderColor #D97706
+    HeaderBackgroundColor #FED7AA
+}
+
+skinparam class<<System>> {
+    BackgroundColor #F3F4F6
+    BorderColor #6B7280
+    HeaderBackgroundColor #E5E7EB
+}
+
+package "Academic Structure & Curriculum" #F9FAFB {
+    class Department <<Primary>> {
+        - id: int [PK]
+        - code: varchar(10) [UK]
+        - name: varchar(100)
+        - dean: varchar(100)
+        - created_at: datetime
+        --
+        + getStudentCount(): int
+        + getSubjects(semester: string): Course[]
+        + getFacultyList(): string[]
+        + calculatePassingRate(): float
+    }
+
+    class "Course (subject)" as Course <<Primary>> {
+        - id: int [PK]
+        - code: varchar(20)
+        - title: varchar(100)
+        - units: int
+        - department_id: int [FK]
+        - year_level: varchar(20)
+        - semester: varchar(20)
+        - schedule: varchar(100)
+        - room: varchar(50)
+        - created_at: datetime
+        --
+        + assignSchedule(schedule: string, room: string): void
+        + getEnrolledStudents(academic_year: string): Student[]
+        + calculateAverageGrade(): float
+        + getUnitLoad(): int
+    }
+}
+
+package "User Security & Administration" #F9FAFB {
+    class UserAccount <<System>> {
+        - id: int [PK]
+        - student_id: varchar(20) [UK, FK]
+        - department_id: int [FK]
+        - username: varchar(50) [UK]
+        - password: varchar(255)
+        - email: varchar(100)
+        - role: enum('student','admin','registrar','cashier','dept_head')
+        - status: enum('active','inactive')
+        - created_at: datetime
+        - updated_at: datetime
+        --
+        + authenticate(password: string): bool
+        + verifyPassword(inputPassword: string): bool
+        + hasRole(roleName: string): bool
+        + updateProfile(email: string): bool
+    }
+
+    class AdminUser <<Admin>> {
+        --
+        + createUserAccount(accountData: Map): UserAccount
+        + toggleAccountStatus(userId: int, status: string): bool
+        + resetUserPassword(userId: int): string
+        + inspectAuditTrail(filter: Map): AuditLog[]
+        + manageSystemSettings(config: Map): void
+        + overrideClearance(clearanceId: int, office: string): bool
+    }
+
+    class AuditLog <<System>> {
+        - id: int [PK]
+        - user_id: int [FK]
+        - action: varchar(100)
+        - details: text
+        - ip_address: varchar(45)
+        - user_agent: varchar(255)
+        - created_at: datetime
+        --
+        + logEvent(userId: int, action: string, details: string): void
+        + filterLogs(criteria: Map): AuditLog[]
+    }
+}
+
+package "Student Core & Records" #F9FAFB {
+    class Student <<Primary>> {
+        - id: int [PK]
+        - student_id: varchar(20) [UK]
+        - department_id: int [FK]
+        - first_name: varchar(50)
+        - last_name: varchar(50)
+        - middle_name: varchar(50)
+        - email: varchar(100)
+        - contact_number: varchar(20)
+        - address: text
+        - year_level: enum('1st Year','2nd Year','3rd Year','4th Year')
+        - academic_year: varchar(20)
+        - semester: enum('1st Semester','2nd Semester','Summer')
+        - created_at: datetime
+        --
+        + getFullName(): string
+        + applyEnrollment(academicYear: string, sem: string): Enrollment
+        + requestDocument(docType: string, purpose: string, copies: int): DocumentRequest
+        + viewGrades(): Grade[]
+        + viewClearanceStatus(): Clearance
+        + viewPaymentHistory(): Payment[]
+    }
+
+    class Enrollment <<System>> {
+        - id: int [PK]
+        - student_id: int [FK]
+        - academic_year: varchar(20)
+        - semester: varchar(20)
+        - year_level: varchar(20)
+        - status: enum('Pending review','Enrolled','Returned')
+        - remarks: text
+        - enrolled_at: datetime
+        - created_at: datetime
+        --
+        + submitEnrollment(): bool
+        + reviewStatus(newStatus: string, remarks: string): bool
+        + generateCertificateOfRegistration(): File
+    }
+
+    class Grade <<System>> {
+        - id: int [PK]
+        - student_id: int [FK]
+        - subject_id: int [FK]
+        - academic_year: varchar(20)
+        - semester: varchar(20)
+        - midterm: decimal(3,2)
+        - final: decimal(3,2)
+        - remarks: varchar(50)
+        - is_published: tinyint(1)
+        - created_at: datetime
+        --
+        + encodeGrade(midterm: float, final: float): void
+        + publishGrade(): void
+        + computeWeightedAverage(): float
+        + determinePassing(): bool
+    }
+
+    class Clearance <<System>> {
+        - id: int [PK]
+        - student_id: int [FK]
+        - academic_year: varchar(20)
+        - semester: varchar(20)
+        - library_status: enum('Pending','Cleared')
+        - laboratory_status: enum('Pending','Cleared')
+        - dean_status: enum('Pending','Cleared')
+        - cashier_status: enum('Pending','Cleared')
+        - registrar_status: enum('Pending','Cleared')
+        - overall_status: enum('Pending','Cleared')
+        - created_at: datetime
+        --
+        + initializeClearance(): void
+        + signOffice(officeName: string, status: string): bool
+        + evaluateOverallStatus(): string
+        + isFullyCleared(): bool
+    }
+}
+
+package "Financial & Document Services" #F9FAFB {
+    class Payment <<Primary>> {
+        - id: int [PK]
+        - student_id: int [FK]
+        - or_number: varchar(50) [UK]
+        - amount: decimal(10,2)
+        - payment_type: enum('Tuition','Document Fee','Clearance Fee','Other')
+        - payment_method: enum('Cash','Bank Transfer','GCash')
+        - reference_number: varchar(100)
+        - paid_at: datetime
+        - processed_by: int [FK]
+        - created_at: datetime
+        --
+        + generateOfficialReceipt(): string
+        + recordTransaction(): bool
+        + verifyPaymentReference(): bool
+        + printReceipt(): File
+    }
+
+    class DocumentRequest <<Primary>> {
+        - id: int [PK]
+        - student_id: int [FK]
+        - document_type: enum('TOR','COG','COE','Good Moral','Honorable Dismissal')
+        - purpose: varchar(255)
+        - copies: int
+        - amount: decimal(10,2)
+        - status: enum('Pending','Processing','Ready for Pickup','Released','Cancelled')
+        - remarks: text
+        - requested_at: datetime
+        - released_at: datetime
+        --
+        + calculateTotalFee(): decimal
+        + updateProcessingStatus(status: string): bool
+        + markAsReleased(): void
+        + cancelRequest(): bool
+    }
+}
+
+' ========================================================
+' RELATIONSHIPS AND MULTIPLICITIES
+' ========================================================
+
+' Inheritance
+UserAccount <|-- AdminUser : "specializes (role='admin')"
+
+' Department Associations
+Department "1" *-- "0..*" Course : "offers"
+Department "1" o-- "0..*" Student : "enrolls"
+
+' Student Account Composition / Association
+UserAccount "1" -- "0..1" Student : "authenticates"
+UserAccount "1" --> "0..*" AuditLog : "generates"
+UserAccount "1" --> "0..*" Payment : "processes (cashier)"
+
+' Student Core Compositions
+Student "1" *-- "0..*" Enrollment : "submits"
+Student "1" *-- "0..*" Grade : "receives"
+Student "1" *-- "0..*" Clearance : "complies with"
+Student "1" *-- "0..*" Payment : "settles"
+Student "1" *-- "0..*" DocumentRequest : "orders"
+
+' Course to Grade Association
+Course "1" <-- "0..*" Grade : "grades for"
+
+note as ArchitectureNote
+  <b>Architectural Implementation Note:</b>
+  The CuyoTech University web application is implemented in <b>procedural PHP</b>
+  with direct PDO/MySQL interactions rather than an OOP ORM framework.
+  These UML classes represent the <b>logical domain entities</b> reverse-engineered from:
+  1. The MySQL relational schema (tables, foreign keys, enums, triggers)
+  2. Procedural controllers and session structures (e.g., student/index.php, registrar/index.php)
+  3. Domain responsibilities enforced across the web portal endpoints.
+  The <b>Course</b> logical entity corresponds directly to the physical <b>`subject`</b> table.
+  The <b>AdminUser</b> entity specializes <b>`user_account`</b> where role = 'admin'.
+end note
+
+@enduml

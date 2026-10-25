@@ -1,0 +1,264 @@
+digraph Level1DFD {
+    graph [
+        rankdir=TB,
+        splines=ortho,
+        nodesep=0.85,
+        ranksep=1.05,
+        pad="0.5",
+        bgcolor="#FFFFFF",
+        dpi=150,
+        fontname="Arial"
+    ];
+    node [fontname="Arial", fontsize=9, color="#000000"];
+    edge [fontname="Arial", fontsize=7, color="#000000", penwidth=1.0,
+          arrowsize=0.65, labeldistance=1.8, labelangle=0];
+
+    // ============================================================
+    // ENTITY & STORE NODE STYLES (defined inline before each row)
+    // ============================================================
+
+    // ─── ROW 1 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Admin1 [label="System\nAdministrator"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P1 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>1.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>User Authentication &amp;<BR/>Account Administration</B></FONT></TD></TR>
+    </TABLE>>];
+    D1  [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D1</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>user_account</B></FONT></TD>
+    </TR></TABLE>>];
+    D11 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D11</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>login_attempt</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Admin1; P1; D1; D11; }
+
+    // ─── ROW 2 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Reg1 [label="Registrar\nOfficer"];
+    Student1 [label="Student"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P2 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>2.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>Enrollment Application<BR/>&amp; Review</B></FONT></TD></TR>
+    </TABLE>>];
+    D4 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D4</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>enrollment</B></FONT></TD>
+    </TR></TABLE>>];
+    D2 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D2</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>student</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Reg1; Student1; P2; D4; D2; }
+
+    // ─── ROW 3 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Reg2 [label="Registrar\nOfficer"];
+    Student2 [label="Student"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P3 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>3.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>Academic Records &amp;<BR/>Grade Evaluation</B></FONT></TD></TR>
+    </TABLE>>];
+    D6 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D6</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>grade</B></FONT></TD>
+    </TR></TABLE>>];
+    D5 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D5</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>subject</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Reg2; Student2; P3; D6; D5; }
+
+    // ─── ROW 4 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Reg3 [label="Registrar\nOfficer"];
+    Student3 [label="Student"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P4 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>4.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>Document Request<BR/>&amp; Processing</B></FONT></TD></TR>
+    </TABLE>>];
+    D7 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D7</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>document_request</B></FONT></TD>
+    </TR></TABLE>>];
+    D3 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D3</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>department</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Reg3; Student3; P4; D7; D3; }
+
+    // ─── ROW 5 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Cashier1 [label="Cashier\nOfficer"];
+    Student4 [label="Student"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P5 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>5.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>Fee Assessment &amp;<BR/>Payment Processing</B></FONT></TD></TR>
+    </TABLE>>];
+    D8 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D8</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>payment</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Cashier1; Student4; P5; D8; }
+
+    // ─── ROW 6 ───────────────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    DeptHead1 [label="Department\nHead"];
+    Admin2    [label="System\nAdministrator"];
+    Student5  [label="Student"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P6 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>6.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>University Clearance<BR/>Verification</B></FONT></TD></TR>
+    </TABLE>>];
+    D9 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D9</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>clearance</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; DeptHead1; Admin2; Student5; P6; D9; }
+
+    // ─── ROW 7 + BOTTOM ──────────────────────────────────────────
+    node [shape=box, style="filled", fillcolor="#FFF3A8", color="#000000",
+          penwidth=1.2, width=1.4, height=0.6, margin="0.1,0.08", fixedsize=true];
+    Inquirer1 [label="Public\nInquirer"];
+
+    node [shape=plain, style="", width=0, height=0, fixedsize=false];
+    P7 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" STYLE="ROUNDED"
+        COLOR="#000000" BGCOLOR="#FFF3A8" WIDTH="158">
+        <TR><TD WIDTH="24" ALIGN="CENTER" BORDER="1" SIDES="R" COLOR="#000000">
+            <FONT POINT-SIZE="9"><B>7.0</B></FONT></TD><TD WIDTH="134"></TD></TR>
+        <TR><TD COLSPAN="2" BGCOLOR="#FFFFFF" BORDER="1" SIDES="TB" COLOR="#000000"
+            ALIGN="CENTER" HEIGHT="28"><FONT POINT-SIZE="9"><B>Student Support &amp;<BR/>Inquiry Handling</B></FONT></TD></TR>
+    </TABLE>>];
+    D12 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D12</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>inquiry</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; Inquirer1; P7; D12; }
+
+    D10 [label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR>
+        <TD BGCOLOR="#C4C4C4" WIDTH="20" BORDER="1" SIDES="TB L R"><FONT POINT-SIZE="8.5"><B>D10</B></FONT></TD>
+        <TD BGCOLOR="#FFF3A8" WIDTH="105" BORDER="1" SIDES="TB R" ALIGN="CENTER"><FONT POINT-SIZE="8.5"><B>audit_log</B></FONT></TD>
+    </TR></TABLE>>];
+    { rank=same; D10; }
+
+    // ============================================================
+    // INVISIBLE SPINE
+    // ============================================================
+    P1 -> P2 -> P3 -> P4 -> P5 -> P6 -> P7 -> D10 [style=invis];
+
+    // ============================================================
+    // P1  User Authentication & Account Administration
+    // ============================================================
+    Admin1 -> P1 [taillabel="Account Roles"];
+    P1 -> Admin1 [taillabel="Reports"];
+    P1 -> D1     [taillabel="Write/Update"];
+    D1 -> P1     [taillabel="Verify Creds"];
+    P1 -> D11    [taillabel="Log Attempt"];
+
+    // ============================================================
+    // P2  Enrollment Application & Review
+    // ============================================================
+    Student1 -> P2 [taillabel="Submit Enrollment"];
+    P2 -> Student1 [taillabel="Status / COR"];
+    Reg1 -> P2     [taillabel="Review Decision"];
+    P2 -> Reg1     [taillabel="Pending Queue"];
+    P2 -> D4       [taillabel="Insert/Update"];
+    D4 -> P2       [taillabel="Read Status"];
+    D2 -> P2       [taillabel="Profile Lookup"];
+
+    // ============================================================
+    // P3  Academic Records & Grade Evaluation
+    // ============================================================
+    Reg2 -> P3     [taillabel="Grade Encodings"];
+    P3 -> Reg2     [taillabel="Grade Rosters"];
+    P3 -> Student2 [taillabel="Published Grades"];
+    P3 -> D6       [taillabel="Store Grades"];
+    D6 -> P3       [taillabel="Fetch Grades"];
+    D5 -> P3       [taillabel="Subject Info"];
+
+    // ============================================================
+    // P4  Document Request & Processing
+    // ============================================================
+    Student3 -> P4 [taillabel="Doc Requests"];
+    P4 -> Student3 [taillabel="Request Status"];
+    Reg3 -> P4     [taillabel="Doc Updates"];
+    P4 -> Reg3     [taillabel="Pending Docs"];
+    P4 -> D7       [taillabel="Create/Update"];
+    D7 -> P4       [taillabel="Query Status"];
+    D3 -> P4       [taillabel="Dept Rules"];
+
+    // ============================================================
+    // P5  Fee Assessment & Payment Processing
+    // ============================================================
+    Cashier1 -> P5 [taillabel="Post Payment"];
+    P5 -> Cashier1 [taillabel="Billing / OR"];
+    P5 -> Student4 [taillabel="Receipt/Balance"];
+    P5 -> D8       [taillabel="Record Payment"];
+    D8 -> P5       [taillabel="Fetch Totals"];
+
+    // ============================================================
+    // P6  University Clearance Verification
+    // ============================================================
+    DeptHead1 -> P6 [taillabel="Sign-offs"];
+    P6 -> DeptHead1 [taillabel="Dept Rosters"];
+    Admin2 -> P6    [taillabel="Overrides"];
+    P6 -> Student5  [taillabel="Clearance Progress"];
+    P6 -> D9        [taillabel="Update Clearance"];
+    D9 -> P6        [taillabel="Check All Depts"];
+
+    // ============================================================
+    // P7  Student Support & Inquiry Handling
+    // ============================================================
+    Inquirer1 -> P7 [taillabel="Inquiry/Message"];
+    P7 -> Inquirer1 [taillabel="Response Notice"];
+    P7 -> D12       [taillabel="Store Ticket"];
+    D12 -> P7       [taillabel="Inquiry Records"];
+
+    // ============================================================
+    // D10 audit_log — all processes write one audit entry
+    // ============================================================
+    P1 -> D10 [label="Audit Entry" constraint=false];
+    P2 -> D10 [label="Audit Entry" constraint=false];
+    P3 -> D10 [label="Audit Entry" constraint=false];
+    P4 -> D10 [label="Audit Entry" constraint=false];
+    P5 -> D10 [label="Audit Entry" constraint=false];
+    P6 -> D10 [label="Audit Entry" constraint=false];
+    P7 -> D10 [label="Audit Entry"];
+}
